@@ -28,8 +28,10 @@
                 x:Name="CounterBtn"
                 Text="Click me" 
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Clicked="testprocedure"
                 HorizontalOptions="Fill" />
+			<Label
+				x:Name="test" Text="hier komt de output"/>
         </VerticalStackLayout>
     </ScrollView>
 
