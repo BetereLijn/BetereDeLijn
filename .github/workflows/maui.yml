@@ -63,8 +63,14 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore ${{ inputs.project-file }}
 
-      - name: Build iOS app (troubleshooting)
+      - name: Build iOS app
         run: dotnet build ${{ inputs.project-file }} -f:${{ inputs.dotnet-version-target }}-ios
 
-      - name: Build Android app (troubleshooting)
-        run: dotnet build ${{ inputs.project-file }} -f:${{ inputs.dotnet-version-target }}-android
+      - name: Print Build Output (optional)
+        run: |
+          dotnet build ${{ inputs.project-file }} -f:${{ inputs.dotnet-version-target }}-ios -v detailed  # Capture detailed build output
+
+     # - name: Archive iOS App (example, adjust based on your needs)
+        # Assuming you have a script to archive the built app
+        #run: |
+        #  sh archive_ios_app.sh  # Replace with your script path
