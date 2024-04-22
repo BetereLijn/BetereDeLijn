@@ -1,44 +1,13 @@
 name: .NET MAUI Build
 
 on:
-  workflow_call:
-    inputs:
-      dotnet-version:
-        required: true
-        type: string
-      dotnet-version-target:
-        required: true
-        type: string
-      xcode-version:
-        required: true
-        type: string
-      project-file:
-        required: true
-        type: string
-      project-folder:
-        required: true
-        type: string
-      build-config:
-        required: true
-        type: string
-      build-version:
-        required: true
-        type: string
-    secrets:      
-      p12-cert:
-        required: true
-      p12-cert-password:
-        required: true
-      appstore-issuer:
-        required: true
-      appstore-keyid:
-        required: true
-      appstore-private-key:
-        required: true
+  push:
+    branches:
+      - '*'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
