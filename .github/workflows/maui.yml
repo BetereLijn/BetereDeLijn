@@ -63,8 +63,8 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore ${{ inputs.project-file }}
 
-      - name: Build iOS app
-        run: dotnet build ${{ inputs.project-file }} -c ${{ inputs.build-config }} -f:${{ inputs.dotnet-version-target }}-ios -p:EnableAssemblyILStripping=false
-
+      - name: Build iOS app (troubleshooting)
+        run: dotnet build ${{ inputs.project-file }} --configuration ${{ inputs.build-config }} -f:${{ inputs.dotnet-version-target }}-ios
+        
       - name: Build Android app
         run: dotnet build ${{ inputs.project-file }} -c ${{ inputs.build-config }} -f:${{ inputs.dotnet-version-target }}-android -p:EnableAssemblyILStripping=false
