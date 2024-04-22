@@ -3,10 +3,7 @@ name: .NET MAUI Build
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - '*'
 
 jobs:
   build:
@@ -29,5 +26,3 @@ jobs:
 
       - name: Build Android project
         run: dotnet build -t:Build -restore -p:Configuration=Release -p:Platform=Android
-
-      # Add additional steps here such as running tests or packaging the app for distribution
