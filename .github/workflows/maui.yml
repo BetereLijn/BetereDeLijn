@@ -21,13 +21,13 @@ on:
       project-folder:
         required: true
         type: string
-      build-config:
+      build-config:  # Define the configuration as an input (e.g., "Debug" or "Release")
         required: true
         type: string
       build-version:
         required: true
         type: string
-    secrets:      
+    secrets:
       p12-cert:
         required: true
       p12-cert-password:
