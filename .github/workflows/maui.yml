@@ -1,33 +1,67 @@
 name: .NET MAUI Build
 
 on:
-  push:
-    branches:
-      - '*'
+  workflow_call:
+    inputs:
+      dotnet-version:
+        required: true
+        type: string
+      dotnet-version-target:
+        required: true
+        type: string
+      xcode-version:
+        required: true
+        type: string
+      project-file:
+        required: true
+        type: string
+      project-folder:
+        required: true
+        type: string
+      build-config:
+        required: true
+        type: string
+      build-version:
+        required: true
+        type: string
+    secrets:      
+      p12-cert:
+        required: true
+      p12-cert-password:
+        required: true
+      appstore-issuer:
+        required: true
+      appstore-keyid:
+        required: true
+      appstore-private-key:
+        required: true
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v1
+      - name: Set XCode version
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          dotnet-version: 7.0.x
+          xcode-version: ${{ inputs.xcode-version }}
 
-      - name: Install .NET MAUI Android workload
-        run: dotnet workload install maui-android
+      - name: Setup .NET ${{ inputs.dotnet-version }}
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
 
-      - name: Install dependencies
-        run: dotnet restore
+      - name: Install MAUI Workload
+        run: dotnet workload install maui --ignore-failed-sources
 
-      - name: Build iOS project
-        run: dotnet build -t:Build -restore -p:Configuration=Release -p:Platform=iPhone -p:IosBuildSystem=msbuild
+      - name: Restore Dependencies
+        run: dotnet restore ${{ inputs.project-file }}
 
-      - name: Build Android project
-        run: dotnet build -t:Build -restore -p:Configuration=Release -p:Platform=Android
+      - name: Build iOS app
+        run: dotnet build ${{ inputs.project-file }} -c ${{ inputs.build-config }} -f:${{ inputs.dotnet-version-target }}-ios /p:EnableAssemblyILStripping=false
 
-      # Add additional steps here such as running tests or packaging the app for distribution
+      - name: Build Android app
+        run: dotnet build ${{ inputs.project-file }} -c ${{ inputs.build-config }} -f:${{ inputs.dotnet-version-target }}-android /p:EnableAssemblyILStripping=false
