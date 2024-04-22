@@ -64,7 +64,7 @@ jobs:
         run: dotnet restore ${{ inputs.project-file }}
 
       - name: Build iOS app
-        run: dotnet build ${{ inputs.project-file }} -f net${{ inputs.dotnet-version-target }}-ios # -framework:.NETPlatform.iOS
+        run: dotnet build ${{ inputs.project-file }} -f net${{ inputs.dotnet-version-target }}-ios --runtime osx-x64 --verbosity normal # -framework:.NETPlatform.iOS
 
       - name: Print Build Output (optional)
         run: |
